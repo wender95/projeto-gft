@@ -4,13 +4,13 @@ import java.util.Scanner;
 
 import gftbootcamp.bank.Cliente;
 
-public abstract class Conta {
+public abstract class Conta implements IConta {
 
 	private static final int AGENCIA = 123;
 	private static int NUMERO_GERAL = 0;
 	private int numero;
 	private Cliente titular;
-	private int saldo;
+	private double saldo;
 
 
 	public Conta(Cliente titular) {
@@ -21,18 +21,28 @@ public abstract class Conta {
 				+ "\nAgencia: " + AGENCIA + "\nNumero: " + numero + "\n");
 
 	}
+	
+	
+	
+	public static int getAgencia() {
+		return AGENCIA;
+	}
+	
+	public int getNumero() {
+		return numero;
+	}
 
-	public void deposita(int valor) {
-		this.saldo += valor;
+	public double deposita(double valor) {
+		return this.saldo += valor;
 
 	}
 
-	public boolean saca(int valor) {
+	public boolean saca(double valor) {
 		if (this.saldo >= valor) {
 			this.saldo -= valor;
 			return true;
 		} else  {
-			System.out.println("Saldo insuficiente");
+			System.out.println("\nSaldo insuficiente");
 			return false;
 		}
 	}
@@ -41,20 +51,34 @@ public abstract class Conta {
 
 		if (this.saca(valor)) {
 			destino.deposita(valor);
+			System.out.println("Transferencia realizada");
 			return true;
 		} else {
-			System.out.println("Saldo insuficiente");
+			System.out.println("\nSaldo insuficiente");
 			return false;
 		}
 
 	}
-	public int getSaldo() {
+	public double getSaldo() {
 		return saldo;
 		
 	}
 	
 	public void extrato() {
+		this.saca(0.25);
+		System.out.println("\n***********EXTRATO**********");
+		System.out.println("Agencia: " + getAgencia());
+		System.out.println("Conta: " + getNumero());
 		System.out.println("Saldo em conta:" + getSaldo());
 		
+	}
+	
+	public boolean sacaAutenticado(double valor, int senha) throws Exception {
+		if(this.titular.autenticador(senha)) {
+			this.saca(valor);
+			return true;
+		}else {
+			return false;
+		}
 	}
 }

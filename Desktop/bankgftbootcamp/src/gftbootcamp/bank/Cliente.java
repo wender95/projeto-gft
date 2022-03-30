@@ -1,11 +1,11 @@
 package gftbootcamp.bank;
 
+import javax.swing.JOptionPane;
 
-
-public class Cliente {
+public class Cliente implements Autenticador {
 	private String nome;
 	private String cpf;
-	
+	private int senha;
 	
 	public Cliente(String nome, String cpf) {
 		this.nome = nome;
@@ -21,7 +21,28 @@ public class Cliente {
 	public String getCpf() {
 		return cpf;
 	}
+	
+	public void setSenha(int senha) {
+		this.senha = senha;
+	}
 
+	@Override
+	public boolean autenticador(int senha) {
+		if (senha == this.senha) {
+			System.out.println("Senha autenticada");
+			
+			return true;
+		}else {
+			System.out.println("Senha invalida. Insira a senha novamente");
+			
+			return false;
 
+	}
+	
+	
+
+	}
 }
+
+
 
